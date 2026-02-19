@@ -1,0 +1,55 @@
+name: Refresh NSE Prices
+
+on:
+  # Run weekdays at 15:30 EAT (12:30 UTC) — 30 min after NSE closes (15:00 EAT)
+  schedule:
+    - cron: '30 12 * * 1-5'
+
+  # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (preview only, no commit)'
+        type: boolean
+        default: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # needed to commit stocks.json
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Refresh prices
+        id: refresh
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            node scripts/refresh-prices.mjs --dry-run --verbose
+          else
+            node scripts/refresh-prices.mjs --verbose
+          fi
+
+      - name: Commit updated stocks.json
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Only commit if stocks.json actually changed
+          if git diff --quiet data/stocks.json; then
+            echo "No price changes — nothing to commit."
+          else
+            CHANGES=$(git diff --stat data/stocks.json)
+            git add data/stocks.json
+            git commit -m "chore: refresh NSE closing prices $(date -u +%Y-%m-%d)"
+            git push
+            echo "Committed: $CHANGES"
+          fi
