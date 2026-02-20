@@ -2264,14 +2264,13 @@ body {
 
     .breakdown-label {
         font-size: 0.8125rem;
-    }
-
-    .breakdown-label span {
-        display: none;
+        color: transparent;
+        position: relative;
     }
 
     .breakdown-label::after {
         content: attr(data-short);
+        color: var(--text);
     }
 
     .broker-list {
