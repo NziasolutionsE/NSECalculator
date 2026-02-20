@@ -479,8 +479,6 @@ body {
 
 .proof-card--warning {
     border-color: rgba(194, 65, 58, 0.25);
-    opacity: 0.82;
-    flex: 0.85;
 }
 
 .proof-card--warning::before {
@@ -490,7 +488,6 @@ body {
 .proof-card--success {
     border-color: rgba(18, 130, 92, 0.5);
     box-shadow: 0 0 0 1.5px var(--fee-low), 0 8px 28px rgba(18, 130, 92, 0.14);
-    flex: 1.15;
 }
 
 .proof-card--success::before {
