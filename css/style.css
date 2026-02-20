@@ -2170,8 +2170,13 @@ body {
 }
 
 @media (max-width: 640px) {
+    .page-wrapper {
+        padding: var(--space-lg) var(--space-sm) var(--space-2xl);
+    }
+
     .nav-inner {
         flex-wrap: wrap;
+        padding: 0.75rem var(--space-sm);
     }
 
     .hero-actions,
@@ -2231,6 +2236,19 @@ body {
 
     .broker-name {
         min-height: 0;
+    }
+
+    /* Reduce card padding on mobile */
+    .calc-card,
+    .result-main,
+    .fee-visualizer,
+    .breakdown-details,
+    .cta-card {
+        padding: var(--space-md);
+    }
+
+    .section-heading {
+        margin: var(--space-xl) 0 var(--space-md);
     }
 
     /* Impact table → card layout on narrow mobile */
