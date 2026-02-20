@@ -158,6 +158,46 @@ body {
     background: var(--accent-soft);
     border-radius: var(--radius-md);
     font-size: 1.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+    position: absolute;
+    transition: opacity 0.2s ease;
+}
+
+/* Show light logo by default and in light mode */
+.brand-logo-light {
+    opacity: 1;
+}
+
+.brand-logo-dark {
+    opacity: 0;
+}
+
+/* Dark mode: swap logos */
+[data-theme="dark"] .brand-logo-light {
+    opacity: 0;
+}
+
+[data-theme="dark"] .brand-logo-dark {
+    opacity: 1;
+}
+
+/* Auto theme with system preference */
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] .brand-logo-light {
+        opacity: 0;
+    }
+    
+    [data-theme="auto"] .brand-logo-dark {
+        opacity: 1;
+    }
 }
 
 .brand-text {
