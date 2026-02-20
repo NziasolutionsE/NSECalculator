@@ -2273,6 +2273,11 @@ body {
         color: var(--text);
     }
 
+    .breakdown-bar--statutory .breakdown-label::after {
+        content: "NSE + CMA + CDSC\A+ ICF";
+        white-space: pre-line;
+    }
+
     .broker-list {
         grid-template-columns: 1fr;
     }
