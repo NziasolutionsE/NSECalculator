@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the exact cost of buying and selling shares on the Nairobi Securities Exchange. Small trades can cost 8%+ in hidden fees. Know your true cost before you trade.">
+    <meta name="theme-color" content="#2D7A3E">
+    <title>NSE Fee Calculator — Stop Losing 8% on Small Trades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&family=Degular+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        /* ============================================
+           DESIGN TOKENS — "Nairobi Trading Floor"
+        ============================================ */
+        :root {
+            /* Colors */
+            --color-primary: #2D7A3E;
+            --color-primary-light: #3A9A4E;
+            --color-primary-dark: #1F5229;
+            --color-coral: #FF6B4A;
+            --color-coral-light: #FF8B73;
+            --color-cream: #FFF9F2;
+            --color-cream-dark: #F5EDE4;
+            --color-ink: #1A1A1A;
+            --color-ink-light: #3A3A3A;
+            --color-stone: #8B8680;
+            --color-stone-light: #C4C0BB;
+            --color-white: #FFFFFF;
+
+            /* Typography */
+            --font-display: 'Degular Display', -apple-system, sans-serif;
+            --font-body: 'General Sans', -apple-system, sans-serif;
+
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            --space-32: 8rem;
+
+            /* Animation */
+            --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Dark mode */
+        [data-theme="dark"] {
+            --color-cream: #0F0F0F;
+            --color-cream-dark: #1A1A1A;
+            --color-ink: #FAFAF9;
+            --color-ink-light: #E8E4DE;
+            --color-stone: #8A8580;
+            --color-stone-light: #4A4540;
+            --color-white: #1A1A1A;
+        }
+
+        /* ============================================
+           RESET
+        ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-cream);
+            color: var(--color-ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* Links */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Buttons reset */
+        button {
+            font: inherit;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           UTILITIES
+        ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: var(--space-4) 0;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 249, 242, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--color-stone-light);
+        }
+
+        [data-theme="dark"] .nav.scrolled {
+            background: rgba(15, 15, 15, 0.95);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-weight: 600;
+        }
+
+        .nav-flag {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nav-name {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-ink-light);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            background: var(--color-ink);
+            color: var(--color-cream);
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 100px;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .nav-cta:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ============================================
+           HERO — EDITORIAL LAYOUT
+        ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: var(--space-32) 0 var(--space-20);
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+            opacity: 0.08;
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: -15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--color-coral) 0%, transparent 70%);
+            opacity: 0.06;
+            border-radius: 50%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: var(--space-16);
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-12);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: rgba(45, 122, 62, 0.1);
+            border: 1px solid rgba(45, 122, 62, 0.2);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-6);
+        }
+
+        [data-theme="dark"] .hero-badge {
+            background: rgba(58, 154, 78, 0.15);
+            border-color: rgba(58, 154, 78, 0.3);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-title-line {
+            display: block;
+        }
+
+        .hero-title-accent {
+            color: var(--color-coral);
+            position: relative;
+        }
+
+        .hero-lead {
+            font-size: 1.25rem;
+            color: var(--color-stone);
+            max-width: 480px;
+            margin-bottom: var(--space-8);
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-6);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(45, 122, 62, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--color-cream-dark);
+            color: var(--color-ink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-stone-light);
+        }
+
+        .btn-arrow {
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+
+        .btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Hero visual */
+        .hero-visual {
+            position: relative;
+        }
+
+        .fee-demo-card {
+            background: var(--color-white);
+            border-radius: 20px;
+            padding: var(--space-6);
+            box-shadow: 0 4px 0 var(--color-stone-light), 0 20px 60px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        [data-theme="dark"] .fee-demo-card {
+            background: var(--color-cream-dark);
+            box-shadow: 0 4px 0 rgba(255, 255, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--color-stone-light);
+        }
+
+        .demo-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .demo-badge {
+            padding: var(--space-1) var(--space-3);
+            background: rgba(255, 107, 74, 0.15);
+            color: var(--color-coral);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 100px;
+        }
+
+        .demo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) 0;
+            font-size: 0.9375rem;
+        }
+
+        .demo-row.total {
+            padding-top: var(--space-4);
+            margin-top: var(--space-2);
+            border-top: 1px solid var(--color-stone-light);
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .demo-row.total .demo-value {
+            color: var(--color-coral);
+        }
+
+        .demo-label {
+            color: var(--color-stone);
+        }
+
+        .demo-value {
+            font-weight: 600;
+        }
+
+        .demo-highlight {
+            background: rgba(255, 107, 74, 0.1);
+            padding: var(--space-4);
+            border-radius: 12px;
+            margin-top: var(--space-4);
+            text-align: center;
+        }
+
+        .demo-highlight-text {
+            font-size: 0.875rem;
+            color: var(--color-stone);
+        }
+
+        .demo-highlight-value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-coral);
+            font-weight: 700;
+        }
+
+        /* Floating stat */
+        .float-stat {
+            position: absolute;
+            background: var(--color-white);
+            padding: var(--space-3) var(--space-4);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        [data-theme="dark"] .float-stat {
+            background: var(--color-cream-dark);
+        }
+
+        .float-stat-1 {
+            top: -20px;
+            right: -30px;
+            animation-delay: 0s;
+        }
+
+        .float-stat-2 {
+            bottom: -30px;
+            left: -40px;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .float-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--color-cream-dark);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        [data-theme="dark"] .float-icon {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .float-content {
+            font-size: 0.8125rem;
+        }
+
+        .float-value {
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .float-label {
+            color: var(--color-stone);
+            font-size: 0.75rem;
+        }
+
+        /* ============================================
+           STATS STRIP
+        ============================================ */
+        .stats {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-12) 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-8);
+            text-align: center;
+        }
+
+        .stat-item {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s var(--ease-out-expo);
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: var(--space-2);
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ============================================
+           PROBLEM SECTION
+        ============================================ */
+        .problem {
+            padding: var(--space-24) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-16);
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-coral);
+            margin-bottom: var(--space-4);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-4);
+        }
+
+        .section-lead {
+            font-size: 1.125rem;
+            color: var(--color-stone);
+            line-height: 1.7;
+        }
+
+        /* Comparison cards */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .compare-card {
+            padding: var(--space-8);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .compare-card.bad {
+            background: rgba(255, 107, 74, 0.05);
+            border: 1px solid rgba(255, 107, 74, 0.15);
+        }
+
+        .compare-card.good {
+            background: rgba(45, 122, 62, 0.05);
+            border: 1px solid rgba(45, 122, 62, 0.15);
+        }
+
+        .compare-badge {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 100px;
+        }
+
+        .compare-card.bad .compare-badge {
+            background: var(--color-coral);
+            color: var(--color-white);
+        }
+
+        .compare-card.good .compare-badge {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .compare-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .compare-card.bad .compare-title {
+            color: var(--color-coral);
+        }
+
+        .compare-card.good .compare-title {
+            color: var(--color-primary);
+        }
+
+        .compare-list {
+            list-style: none;
+        }
+
+        .compare-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            color: var(--color-stone);
+            font-size: 0.9375rem;
+        }
+
+        .compare-card.bad .compare-list li::before {
+            content: '✕';
+            color: var(--color-coral);
+            font-weight: 700;
+        }
+
+        .compare-card.good .compare-list li::before {
+            content: '✓';
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* ============================================
+           FEE BREAKDOWN VISUAL
+        ============================================ */
+        .breakdown-section {
+            padding: var(--space-24) 0;
+            background: var(--color-cream-dark);
+        }
+
+        [data-theme="dark"] .breakdown-section {
+            background: var(--color-ink);
+        }
+
+        .breakdown-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breakdown-visual {
+            margin-top: var(--space-12);
+        }
+
+        .fee-bar-group {
+            margin-bottom: var(--space-6);
+        }
+
+        .fee-bar-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+            font-size: 0.875rem;
+        }
+
+        .fee-bar-label {
+            font-weight: 500;
+        }
+
+        .fee-bar-percent {
+            color: var(--color-stone);
+        }
+
+        .fee-bar-track {
+            height: 48px;
+            background: var(--color-cream);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        [data-theme="dark"] .fee-bar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .fee-bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-4);
+            font-weight: 600;
+            color: var(--color-white);
+            transition: width 1s var(--ease-out-expo);
+        }
+
+        .fee-bar-fill.brokerage {
+            background: var(--color-primary);
+            width: 0;
+        }
+
+        .fee-bar-fill.levies {
+            background: var(--color-stone);
+            width: 0;
+        }
+
+        .fee-bar-fill.stamp {
+            background: var(--color-coral);
+            width: 0;
+        }
+
+        .fee-bar-fill.visible {
+            width: var(--width);
+        }
+
+        .breakdown-footnote {
+            margin-top: var(--space-8);
+            padding: var(--space-4);
+            background: rgba(255, 107, 74, 0.1);
+            border-left: 3px solid var(--color-coral);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.9375rem;
+            color: var(--color-stone);
+        }
+
+        /* ============================================
+           HOW IT WORKS
+        ============================================ */
+        .how {
+            padding: var(--space-24) 0;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            margin-top: var(--space-12);
+        }
+
+        @media (max-width: 768px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s var(--ease-out-expo);
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto var(--space-4);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .step-desc {
+            color: var(--color-stone);
+            font-size: 0.9375rem;
+        }
+
+        /* ============================================
+           CTA
+        ============================================ */
+        .cta-section {
+            padding: var(--space-24) 0;
+            text-align: center;
+        }
+
+        .cta-card {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 24px;
+            padding: var(--space-16) var(--space-8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            margin-bottom: var(--space-4);
+        }
+
+        .cta-lead {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: var(--space-8);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-8);
+            background: var(--color-white);
+            color: var(--color-primary);
+            font-size: 1.125rem;
+            font-weight: 700;
+            border-radius: 100px;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        .footer {
+            padding: var(--space-12) 0;
+            border-top: 1px solid var(--color-stone-light);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-6);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-6);
+        }
+
+        .footer-link {
+            font-size: 0.9375rem;
+            color: var(--color-stone);
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--color-ink);
+        }
+
+        .footer-note {
+            width: 100%;
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--color-stone-light);
+            font-size: 0.8125rem;
+            color: var(--color-stone);
+            text-align: center;
+        }
+
+        /* ============================================
+           SCROLL REVEAL
+        ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s var(--ease-out-expo);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           ACCESSIBILITY
+        ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <span class="nav-flag">🇰🇪</span>
+                    <span class="nav-name">NSE Fee Calculator</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#problem" class="nav-link">Why it matters</a>
+                    <a href="#how" class="nav-link">How it works</a>
+                    <a href="https://ziidi.co.ke" target="_blank" rel="noopener" class="nav-link">About</a>
+                </div>
+                <a href="index.html" class="nav-cta">
+                    Calculate Fees
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="hero-badge">For Kenyan retail investors</span>
+                    <h1 class="hero-title">
+                        <span class="hero-title-line">Small trades lose</span>
+                        <span class="hero-title-line"><span class="hero-title-accent">8%+</span> to hidden fees.</span>
+                    </h1>
+                    <p class="hero-lead">
+                        Stamp duty, statutory levies, and broker charges quietly eat your returns at the NSE. Calculate exactly what you'll pay — and find your optimal trade size — before you trade.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="index.html" class="btn btn-primary">
+                            Start Calculating
+                            <span class="btn-arrow">→</span>
+                        </a>
+                        <a href="#problem" class="btn btn-secondary">
+                            Learn Why
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="float-stat float-stat-1">
+                        <span class="float-icon">📊</span>
+                        <div class="float-content">
+                            <div class="float-value">65+</div>
+                            <div class="float-label">NSE stocks</div>
+                        </div>
+                    </div>
+
+                    <div class="float-stat float-stat-2">
+                        <span class="float-icon">⚡</span>
+                        <div class="float-content">
+                            <div class="float-value">Instant</div>
+                            <div class="float-label">Results</div>
+                        </div>
+                    </div>
+
+                    <div class="fee-demo-card">
+                        <div class="demo-header">
+                            <span class="demo-title">Trade: Buy 1 ABSA share</span>
+                            <span class="demo-badge">Example</span>
+                        </div>
+                        <div class="demo-row">
+                            <span class="demo-label">Share price</span>
+                            <span class="demo-value">KES 30.20</span>
+                        </div>
+                        <div class="demo-row">
+                            <span class="demo-label">Brokerage (1.5%)</span>
+                            <span class="demo-value">KES 0.45</span>
+                        </div>
+                        <div class="demo-row">
+                            <span class="demo-label">VAT (16%)</span>
+                            <span class="demo-value">KES 0.07</span>
+                        </div>
+                        <div class="demo-row">
+                            <span class="demo-label">NSE + CMA levies</span>
+                            <span class="demo-value">KES 0.07</span>
+                        </div>
+                        <div class="demo-row">
+                            <span class="demo-label">Stamp duty</span>
+                            <span class="demo-value">KES 2.00</span>
+                        </div>
+                        <div class="demo-row total">
+                            <span class="demo-label">You pay</span>
+                            <span class="demo-value">KES 32.67</span>
+                        </div>
+                        <div class="demo-highlight">
+                            <div class="demo-highlight-text">That's</div>
+                            <div class="demo-highlight-value">8.18% in fees</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">65+</div>
+                    <div class="stat-label">NSE listed stocks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">20+</div>
+                    <div class="stat-label">Brokers compared</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Fee types calculated</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Free</div>
+                    <div class="stat-label">Forever, no sign-up</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="problem" id="problem">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-eyebrow">The Problem</span>
+                <h2 class="section-title">Most investors see the share price. Not the true cost.</h2>
+                <p class="section-lead">
+                    Stamp duty alone is KES 2 per KES 10,000 bracket — negligible on large trades, devastating on small ones. The same KES 2 fee that's 0.02% on a KES 100,000 trade becomes 6.6% on a single KES 30 share.
+                </p>
+            </div>
+
+            <div class="comparison reveal">
+                <div class="compare-card bad">
+                    <span class="compare-badge">Before</span>
+                    <h3 class="compare-title">😵 Trading Blind</h3>
+                    <ul class="compare-list">
+                        <li>You only know the brokerage rate</li>
+                        <li>Stamp duty impact catches you by surprise</li>
+                        <li>No idea what your break-even price is</li>
+                        <li>Overpay on every small trade</li>
+                    </ul>
+                </div>
+                <div class="compare-card good">
+                    <span class="compare-badge">After</span>
+                    <h3 class="compare-title">😎 Trading Smart</h3>
+                    <ul class="compare-list">
+                        <li>See every fee before you execute</li>
+                        <li>Understand stamp duty brackets</li>
+                        <li>Know your exact break-even price</li>
+                        <li>Find optimal trade sizes instantly</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fee Breakdown -->
+    <section class="breakdown-section">
+        <div class="container">
+            <div class="breakdown-container">
+                <div class="section-header reveal">
+                    <span class="section-eyebrow">Where Your Money Goes</span>
+                    <h2 class="section-title">On a single KES 30 share, fees add up to 8%+</h2>
+                </div>
+
+                <div class="breakdown-visual reveal">
+                    <div class="fee-bar-group">
+                        <div class="fee-bar-header">
+                            <span class="fee-bar-label">Brokerage + VAT</span>
+                            <span class="fee-bar-percent">57%</span>
+                        </div>
+                        <div class="fee-bar-track">
+                            <div class="fee-bar-fill brokerage" style="--width: 57%">57%</div>
+                        </div>
+                    </div>
+                    <div class="fee-bar-group">
+                        <div class="fee-bar-header">
+                            <span class="fee-bar-label">NSE + CMA + CDSC + ICF</span>
+                            <span class="fee-bar-percent">29%</span>
+                        </div>
+                        <div class="fee-bar-track">
+                            <div class="fee-bar-fill levies" style="--width: 29%">29%</div>
+                        </div>
+                    </div>
+                    <div class="fee-bar-group">
+                        <div class="fee-bar-header">
+                            <span class="fee-bar-label">Stamp Duty (KES 2)</span>
+                            <span class="fee-bar-percent">14%</span>
+                        </div>
+                        <div class="fee-bar-track">
+                            <div class="fee-bar-fill stamp" style="--width: 14%">14%</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-footnote">
+                        <strong>The hidden killer:</strong> Stamp duty is a flat KES 2 per bracket, not a percentage. On 1 share at KES 30, that KES 2 alone is 6.6% of your trade value.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how" id="how">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-eyebrow">How It Works</span>
+                <h2 class="section-title">Three steps to clarity</h2>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Select Your Stock</h3>
+                    <p class="step-desc">Choose from 65+ NSE-listed companies with current prices loaded automatically.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Enter Trade Details</h3>
+                    <p class="step-desc">Specify buy or sell, number of shares, and your preferred broker.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Get Full Breakdown</h3>
+                    <p class="step-desc">See every fee, your break-even price, and fee impact across trade sizes instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card reveal">
+                <h2 class="cta-title">Stop overpaying. Start trading smart.</h2>
+                <p class="cta-lead">
+                    Join thousands of Kenyan investors who calculate before they trade. Free forever, no sign-up required.
+                </p>
+                <a href="index.html" class="cta-btn">
+                    Open Calculator
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>🇰🇪</span>
+                    <span>NSE Fee Calculator</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">Calculator</a>
+                    <a href="https://ziidi.co.ke" target="_blank" rel="noopener" class="footer-link">Ziidi</a>
+                    <a href="https://cdsc.co.ke" target="_blank" rel="noopener" class="footer-link">DhowCSD</a>
+                </div>
+            </div>
+            <p class="footer-note">
+                Built for Kenyan investors. Not financial advice — always do your own research.<br>
+                Data sourced from public NSE feeds. Prices may be delayed.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .stat-item, .step').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Fee bars animation
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.fee-bar-fill').forEach((bar, i) => {
+                        setTimeout(() => bar.classList.add('visible'), i * 200);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.breakdown-visual').forEach(el => {
+            barObserver.observe(el);
+        });
+
+        // Theme toggle (respects system preference)
+        const savedTheme = localStorage.getItem('nse-theme');
+        if (savedTheme && savedTheme !== 'auto') {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    </script>
+</body>
+</html>

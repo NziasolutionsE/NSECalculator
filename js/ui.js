@@ -366,15 +366,13 @@ function updateHeroProofCards(ticker) {
         if (els.proofAmountSweet) els.proofAmountSweet.textContent = `${sweetBuy.feePercentage.toFixed(2)}%`;
         if (els.proofSavedAmount) els.proofSavedAmount.textContent = `KES ${Math.abs(savings).toFixed(2)}`;
 
-        // Update colors based on fee percentage
-        const smallStatus = calc.getFeeStatus(smallBuy.feePercentage);
-        const sweetStatus = calc.getFeeStatus(sweetBuy.feePercentage);
-
+        // Left card: always warning (1 share is expensive — that's the point)
+        // Right card: always green — it's the solution/sweet spot side
         if (els.proofCardSmall) {
-            els.proofCardSmall.className = `proof-card proof-card--${smallStatus.class === 'low' ? 'success' : 'warning'}`;
+            els.proofCardSmall.className = `proof-card proof-card--warning`;
         }
         if (els.proofCardSweet) {
-            els.proofCardSweet.className = `proof-card proof-card--${sweetStatus.class === 'low' ? 'success' : 'warning'}`;
+            els.proofCardSweet.className = `proof-card proof-card--success`;
         }
     };
 
