@@ -14,7 +14,6 @@ const CACHE_VERSION = '2026-02-19';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
-    '/landing.html',
     '/css/style.css',
     '/js/calculator.js',
     '/js/ui.js',

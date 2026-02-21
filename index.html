@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="See exactly what you'll pay on every NSE trade. Small trades can cost 8%+ in fees due to stamp duty. Calculate brokerage, levies, and break-even before trading.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#f5f7fb">
     <title>NSE Fee Calculator — Stop losing 8% on small trades</title>
+    <link rel="canonical" href="https://nsecalc.co.ke/">
+    <link rel="alternate" hreflang="en-KE" href="https://nsecalc.co.ke/">
+    <link rel="alternate" hreflang="x-default" href="https://nsecalc.co.ke/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -13,6 +17,9 @@
     <meta property="og:title" content="NSE Fee Calculator — Know the real cost before you trade">
     <meta property="og:description" content="Small trades lose 8%+ to fees. Calculate brokerage, VAT, levies & stamp duty for any NSE stock. Free tool for Kenyan investors.">
     <meta property="og:image" content="https://nsecalc.co.ke/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="NSE Fee Calculator showing the true cost of an NSE trade including stamp duty and levies">
     <meta property="og:locale" content="en_KE">
     
     <!-- Twitter Card -->
@@ -21,6 +28,7 @@
     <meta name="twitter:title" content="NSE Fee Calculator — Know the real cost before you trade">
     <meta name="twitter:description" content="Small trades lose 8%+ to fees. Calculate brokerage, VAT, levies & stamp duty for any NSE stock. Free tool for Kenyan investors.">
     <meta name="twitter:image" content="https://nsecalc.co.ke/assets/og-image.png">
+    <meta name="twitter:image:alt" content="NSE Fee Calculator showing total buy or sell cost with full fee breakdown">
     
     <!-- Favicons -->
     <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -34,9 +42,61 @@
     (function(){var t=localStorage.getItem('nse-theme')||'auto';document.documentElement.setAttribute('data-theme',t)})()
     </script>
 
-    <!-- Umami Analytics (Privacy-friendly, no cookies) -->
-    <script defer src="https://umami-hs8wowwksgcs84wgc8sw0gsk.8it5.com/script.js" 
-            data-website-id="ce00a472-a494-4046-a323-87a0e97d5e09"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "NSE Fee Calculator",
+            "url": "https://nsecalc.co.ke/",
+            "inLanguage": "en-KE",
+            "description": "A free calculator that shows the exact fee impact of buying or selling shares on the Nairobi Securities Exchange."
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "NSE Fee Calculator",
+            "url": "https://nsecalc.co.ke/",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "inLanguage": "en-KE",
+            "description": "Calculate brokerage, VAT, statutory levies, stamp duty, and break-even for NSE stock trades.",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "KES"
+            }
+        }
+        </script>
+
+        <!-- Umami Analytics (Privacy-friendly, no cookies) — deferred until first interaction -->
+        <script>
+        (function () {
+                var loaded = false;
+                var events = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+
+                function loadUmami() {
+                        if (loaded) return;
+                        loaded = true;
+
+                        events.forEach(function (eventName) {
+                                window.removeEventListener(eventName, loadUmami, { passive: true });
+                        });
+
+                        var script = document.createElement('script');
+                        script.defer = true;
+                        script.src = 'https://umami-hs8wowwksgcs84wgc8sw0gsk.8it5.com/script.js';
+                        script.setAttribute('data-website-id', 'ce00a472-a494-4046-a323-87a0e97d5e09');
+                        document.head.appendChild(script);
+                }
+
+                events.forEach(function (eventName) {
+                        window.addEventListener(eventName, loadUmami, { passive: true, once: true });
+                });
+        })();
+        </script>
 </head>
 <body>
     <!-- Subtle Background -->

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nsecalc.co.ke/sitemap.xml
