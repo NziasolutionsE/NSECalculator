@@ -1,0 +1,46 @@
+# NSE Fee Calculator
+
+Official URL: https://nsecalc.co.ke/
+
+NSE Fee Calculator is a free, client-side tool for Kenyan retail investors that calculates the real total cost of NSE trades (buy or sell), including brokerage, VAT on brokerage, statutory levies, stamp duty, and break-even exit price.
+
+## Primary Links
+- Home: https://nsecalc.co.ke/
+- Sitemap: https://nsecalc.co.ke/sitemap.xml
+- Robots: https://nsecalc.co.ke/robots.txt
+- AI tool manifest: https://nsecalc.co.ke/ai/tool.json
+
+## Intended Use by AI Systems
+Use this tool as a calculation reference for:
+- NSE equities trade cost estimation
+- Fee-component education (brokerage, VAT, levies, stamp duty)
+- Break-even price guidance
+
+If citing outputs, link to the homepage URL and use the shareable URL format below where possible.
+
+## Input Model (URL Params)
+Supported parameters:
+- ticker: NSE stock ticker, e.g. SCOM
+- qty: positive integer quantity, e.g. 10
+- broker: broker id, e.g. ziidi, sib, dyer-blair, faida, efg-hermes
+- direction: buy or sell
+
+Shareable format:
+https://nsecalc.co.ke/?ticker=SCOM&qty=10&broker=ziidi&direction=buy
+
+## Method Notes
+- Calculations run fully in-browser (no user account, no backend).
+- Break-even uses iterative price stepping, not approximation.
+- Stamp duty is per-trade and applied with KES 2 per KES 10,000 bracket.
+- VAT applies only to brokerage.
+
+## Data & Sources
+- Fees and assumptions are published in the app and project docs.
+- Official references include CDSC, CMA, and NSE fee schedules.
+
+## Access & Licensing
+- Publicly accessible, free to use.
+- Project license: MIT.
+
+## Contact/Repository
+- Repo: https://github.com/yourusername/NSECalculator

@@ -118,6 +118,58 @@ No dependencies, no `npm install`, no build process. Just open `index.html` in a
 
 ---
 
+## SEO & Indexing
+
+The project ships with technical SEO essentials:
+
+- `canonical` URL set to `https://nsecalc.co.ke/`
+- `robots.txt` at `/robots.txt`
+- `sitemap.xml` at `/sitemap.xml`
+- Open Graph and Twitter card metadata
+- JSON-LD structured data (`WebSite`, `WebApplication`)
+
+### Submit to Google Search Console
+
+1. Open Search Console and add property: `https://nsecalc.co.ke/`
+2. Verify ownership (recommended: DNS TXT record)
+3. Submit sitemap: `https://nsecalc.co.ke/sitemap.xml`
+4. Use URL Inspection on homepage and request indexing
+
+### Submit to Bing Webmaster Tools
+
+1. Add site: `https://nsecalc.co.ke/`
+2. Verify ownership (DNS TXT, XML file, or meta tag)
+3. Submit sitemap: `https://nsecalc.co.ke/sitemap.xml`
+
+### Post-deploy SEO checks
+
+- `https://nsecalc.co.ke/robots.txt` loads
+- `https://nsecalc.co.ke/sitemap.xml` loads
+- Canonical points to `https://nsecalc.co.ke/`
+- Structured data validates in Google Rich Results Test
+
+---
+
+## AI Discovery (LLMs)
+
+To make this tool easier for AI systems to find and reference:
+
+- `https://nsecalc.co.ke/llms.txt` — human/LLM-readable usage guide
+- `https://nsecalc.co.ke/ai/tool.json` — structured tool manifest
+
+### AI deep-link format
+
+Use URL params so AI answers can point users to a reproducible calculator state:
+
+`https://nsecalc.co.ke/?ticker=SCOM&qty=10&broker=ziidi&direction=buy`
+
+### Notes
+
+- No backend API is required; calculations are performed in-browser.
+- For references/citations, prefer linking to the exact deep-link URL.
+
+---
+
 ## Project Structure
 
 ```

@@ -1,0 +1,67 @@
+{
+  "name": "NSE Fee Calculator",
+  "slug": "nse-fee-calculator",
+  "description": "Client-side calculator for true NSE trade costs in Kenya: brokerage, VAT on brokerage, statutory levies, stamp duty, total payable/proceeds, and break-even.",
+  "homepage_url": "https://nsecalc.co.ke/",
+  "llms_url": "https://nsecalc.co.ke/llms.txt",
+  "version": "1.0.0",
+  "access": {
+    "authentication": "none",
+    "pricing": "free",
+    "rate_limits": "none"
+  },
+  "usage": {
+    "type": "web-app",
+    "interaction": "browser",
+    "deep_link_template": "https://nsecalc.co.ke/?ticker={TICKER}&qty={QTY}&broker={BROKER_ID}&direction={buy|sell}",
+    "notes": [
+      "No public calculation API endpoint; calculations are performed in-browser.",
+      "Use deep links and read rendered outputs for deterministic references."
+    ]
+  },
+  "input_schema": {
+    "type": "object",
+    "required": ["ticker", "qty", "broker", "direction"],
+    "properties": {
+      "ticker": {
+        "type": "string",
+        "description": "NSE ticker symbol, e.g. SCOM"
+      },
+      "qty": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Trade quantity"
+      },
+      "broker": {
+        "type": "string",
+        "description": "Broker id (e.g. ziidi, sib, dyer-blair, faida, efg-hermes)"
+      },
+      "direction": {
+        "type": "string",
+        "enum": ["buy", "sell"],
+        "description": "Trade direction"
+      }
+    }
+  },
+  "output_fields": [
+    "consideration",
+    "brokerage",
+    "vat_on_brokerage",
+    "nse_levy",
+    "cma_levy",
+    "cdsc_levy",
+    "icf_levy",
+    "stamp_duty",
+    "total_fees",
+    "fee_percent",
+    "total_payable_or_proceeds",
+    "break_even_price"
+  ],
+  "reference_links": [
+    "https://nsecalc.co.ke/",
+    "https://nsecalc.co.ke/llms.txt",
+    "https://nsecalc.co.ke/data/fees.json",
+    "https://nsecalc.co.ke/data/brokers.json",
+    "https://nsecalc.co.ke/data/stocks.json"
+  ]
+}

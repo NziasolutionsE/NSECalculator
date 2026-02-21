@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# AI discovery
+# LLMs reference: https://nsecalc.co.ke/llms.txt
+
 Sitemap: https://nsecalc.co.ke/sitemap.xml
