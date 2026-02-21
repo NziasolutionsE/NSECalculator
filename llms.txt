@@ -43,4 +43,4 @@ https://nsecalc.co.ke/?ticker=SCOM&qty=10&broker=ziidi&direction=buy
 - Project license: MIT.
 
 ## Contact/Repository
-- Repo: https://github.com/yourusername/NSECalculator
+- Repo: https://github.com/NziaSolutions/NSECalculator

@@ -311,6 +311,21 @@ body {
     background: var(--accent-strong);
 }
 
+[data-theme="dark"] .btn-primary {
+    background: #2563eb;
+}
+[data-theme="dark"] .btn-primary:hover {
+    background: #1d4ed8;
+}
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] .btn-primary {
+        background: #2563eb;
+    }
+    [data-theme="auto"] .btn-primary:hover {
+        background: #1d4ed8;
+    }
+}
+
 .btn-ghost {
     color: var(--accent);
     border-color: var(--accent);
@@ -1599,17 +1614,17 @@ body {
 .footer-dot { color: var(--text-muted); }
 
 .footer-note {
-    opacity: 0.7;
+    opacity: 0.85;
 }
 
 .footer-sources {
-    opacity: 0.5;
+    color: var(--text-muted);
     font-size: 0.75rem;
     margin-top: var(--space-xs);
 }
 
 .footer-sources a {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
@@ -1965,6 +1980,47 @@ body {
     font-style: normal;
     font-weight: 600;
     color: var(--text);
+}
+
+/* ============================================
+   AI Usage Section
+   ============================================ */
+
+.ai-usage-section {
+    margin-top: var(--space-2xl);
+}
+
+.ai-usage-card {
+    margin-top: var(--space-md);
+}
+
+.ai-usage-card p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.ai-usage-card p + p {
+    margin-top: var(--space-sm);
+}
+
+.ai-usage-card a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ai-usage-card a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.ai-usage-card code {
+    background: var(--surface-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", "Monaco", monospace;
+    font-size: 0.86em;
 }
 
 /* ============================================

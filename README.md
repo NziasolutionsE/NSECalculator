@@ -100,7 +100,7 @@ Built with zero dependencies for maximum performance:
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/NSECalculator.git
+git clone https://github.com/NziaSolutions/NSECalculator.git
 cd NSECalculator
 
 # Start local server
@@ -219,7 +219,7 @@ Contributions welcome! Areas where help is needed:
 
 1. **Price updates** — Stock prices are from Feb 2026. Script exists at `scripts/refresh-prices.mjs` but needs API integration.
 2. **Broker verification** — Confirm current brokerage rates for all 5 brokers.
-3. **New features** — See [issues](https://github.com/yourusername/NSECalculator/issues) for V2 roadmap (contract note analyzer, portfolio tracker, Swahili translation).
+3. **New features** — See [issues](https://github.com/NziaSolutions/NSECalculator/issues) for V2 roadmap (contract note analyzer, portfolio tracker, Swahili translation).
 4. **Bug reports** — If a calculation is wrong, open an issue with the trade details.
 
 **Before contributing:**
@@ -300,7 +300,7 @@ Special thanks to:
 
 - **Twitter:** (add your Twitter handle)
 - **Email:** (add your email)
-- **Issues:** [GitHub Issues](https://github.com/yourusername/NSECalculator/issues)
+- **Issues:** [GitHub Issues](https://github.com/NziaSolutions/NSECalculator/issues)
 
 Built with ❤️ for 🇰🇪
 
@@ -310,9 +310,9 @@ Built with ❤️ for 🇰🇪
 
 If this tool saved you money:
 - ⭐ **Star this repo** on GitHub
-- 🐦 **Share on Twitter** (tag @yourusername)
+- 🐦 **Share on Twitter**
 - 📧 **Tell your broker** about it (they might even partner with us!)
-- 💡 **Suggest features** via [GitHub Issues](https://github.com/yourusername/NSECalculator/issues)
+- 💡 **Suggest features** via [GitHub Issues](https://github.com/NziaSolutions/NSECalculator/issues)
 
 No donations needed — the goal is transparency, not profit.
 

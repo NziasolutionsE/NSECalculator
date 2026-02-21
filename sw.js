@@ -7,8 +7,8 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'nse-fee-calc-v3';
-const CACHE_VERSION = '2026-02-19';
+const CACHE_NAME = 'nse-fee-calc-v4';
+const CACHE_VERSION = '2026-02-21';
 
 // Assets to cache immediately on install
 const STATIC_ASSETS = [
